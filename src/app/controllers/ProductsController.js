@@ -77,8 +77,6 @@ class ProductsController {
       await product.update(req.body);
       const newProduct = await convertCentsToMoney(product, true);
 
-      console.log(newProduct);
-
       return res.json(newProduct);
     } catch (error) {
       return res.status(500).json(`Error: ${error.message}`);
