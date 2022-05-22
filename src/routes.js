@@ -1,9 +1,8 @@
 import { Router } from 'express';
-import path from 'path';
+import ProductsController from './app/controllers/ProductsController';
+
 const routes = new Router();
 
-routes.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname + '/index.html'));
-});
+routes.get('/products', ProductsController.getAll);
 
 export default routes;

@@ -4,7 +4,8 @@ import 'express-async-errors';
 import express from 'express';
 import cors from 'cors';
 import routes from './routes';
-import path from 'path';
+
+import './database';
 
 class App {
   constructor() {
@@ -16,7 +17,6 @@ class App {
   midllewares() {
     this.server.use(express.json());
     this.server.use(cors());
-    this.server.use(express.static(path.join(__dirname, 'public')));
 
     this.server.use((req, res, next) => {
       res.header('Access-Control-Allow-Origin', '*');
