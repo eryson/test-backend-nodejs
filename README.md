@@ -1,40 +1,49 @@
-<h1>Backend Analyst Candidate Testing</h1>
+<h1>API de catálogo de produtos</h1>
 
-Hello dear developer, in this test we will analyze your general knowledge and even speed of development. Below we will explain everything that will be needed.
-Do not be alarmed, we do not expect everyone to be able to complete all tasks, this test is the same presented for candidates of all experience levels, so do what you can without worry.
 
-<strong>The challenge</strong>
+<strong>Ambiente de desenvolvimento</strong>
 
-Your challenge is to develop an API, using Node.JS, for a product catalog management application. Thus, you must analyze and convert the user stories below into routes of an application.
+Segue as versões que foram utilizadas:
+- NodeJS: 16.14.0
+- Mysql-server: 8.0.29
+- Yarn: 1.22.15
  
-<strong>User stories:</strong>
-
-- As a user I would like to register a product so that I can have access to the data of this product in the future (Title, description, price, category)
-- I as a user would like to be able to associate and edit a product category;
-- As a user I would like to be able to access the list of all products;
-- As a user I would like to be able to filter products by name or category;
-- I as a user would like to be able to update the product data;
-- I as a user would like to be able to delete a product from my catalog;
  
-<strong>Instructions</strong>
-- <strong>To start the test, <strong>fork</strong> this repository, create a branch with its full name and then and send us the link to the test performed (link to your repository) . If you just clone the repository you will not be able to push and then it will be more complicated to make the pull request.</strong>
-- The choice of libraries, databases, architecture, etc. is at your discretion.
-- Change the README file explaining what it takes to run your application.
-- Paste the branch name into the GUPY system and indicate the completion of the test
-- If you want you can leave us feedback regarding the test
-
+<strong>Instruções</strong>
+- Instalar as dependências do projeto, com o comando <strong>yarn</strong> ou <strong>npm install</strong> no terminal.
+- Importar a base de dados que está na pasta <strong>db</strong>, localizada na raiz do projeto. (Dessa forma não será preciso criar uma base nova, e rodar as migrations para criar as respectivas tabelas).
+- Caso deseje criar a base de dados do zero, após criar a base, basta rodar o comando <strong>yarn sequelize db:migrate</strong> na raiz do projeto para criar as tabelas.
+- Criar um arquivo <strong>.env</strong> baseado no arquivo de exemplo disponibilizado, e preencher as repesctivos campos conforme seu ambiente.
+- Rodar o comando <strong>yarn dev</strong> para inicializar a aplicação.
  
-<strong>Our analysis</strong>
-- Knowledge of Javascript, NodeJs, Express will be assessed for this position;
-- We'll look at how you structure the:
-  application layers;
-  outgoing calls,
-  environment variables,
-   cache,
-  unit tests,
-  logs;
-  error handling;
-  documentation.
-- Code organization, module separation, readability and comments.
-- Commit history.
-- The use of MongoDB is a differentiator
+<strong>Rotas</strong>
+
+ Foi disponibilizado um arquivo de rotas do <a href="https://insomnia.rest/" target="_blank">Insomnia</a>, que está localizado na pasta <strong>insomnia</strong> na raiz do projeto.
+ <br>
+ Para estes exemplos, vou deixar a porta da aplicação como "3000". (Lembrando que a mesma deve configurada no .env do projeto).
+- <strong>All Products:</strong> Requisição GET para a URL: http://localhost:3000/products
+- <strong>Filter Products:</strong> Requisição GET para a URL: http://localhost:3000/products/filter enviando no body da requisição o que deseja filtrar em formato JSON, conforme exemplo abaixo.
+```bash
+{
+	"title": "Processador"
+}
+```
+- <strong>Create Product:</strong> Requisição POST para a URL: http://localhost:3000/products, enviando no body da requisição as informações do produto em formato JSON, conforme exemplo abaixo.
+```bash
+{
+	"title": "Microondas",
+	"description": "Microondas Philco",
+	"price": 599.00,
+	"categoryId": 4
+}
+```
+- <strong>Update Product:</strong> Requisição PUT para a URL: http://localhost:3000/products/:id, passando por parâmetro na URL o <strong>id</strong> do produto que deseja atualizar e  enviando no body da requisição as informações do produto em formato JSON, conforme exemplo abaixo.
+```bash
+{
+	"description": "Processador Intel", 
+	"price": 789.90
+}
+```
+- <strong>Delete Product:</strong> Requisição DELETE para a URL: http://localhost:3000/products/:id, passando por parâmetro na URL o <strong>id</strong> do produto que deseja excluir.
+
+As requisições para as Categorias, são as mesmas dos produtos, seguindo a URL: http://localhost:3000/categories .
