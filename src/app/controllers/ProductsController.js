@@ -4,23 +4,20 @@ import Products from '../models/Products';
 class ProductsController {
   async getAll(req, res) {
     try {
-      const smsLogs = await Products.findAll();
+      const products = await Products.findAll();
 
-      return res.json(smsLogs);
+      return res.json(products);
     } catch (error) {
       return res.status(500).json(`Error: ${error.message}`);
     }
   }
 
-  async getById(req, res) {
+  async getByFilter(req, res) {
     try {
-      const smsLog = await Products.findByPk(req.params.id);
+      const { body } = req;
+      const product = await Products.findAll({ where: body });
 
-      if (!smsLog) {
-        return res.status(400).json({ error: 'This sms log does not exists' });
-      }
-
-      return res.json(smsLog);
+      return res.json(product);
     } catch (error) {
       return res.status(500).json(`Error: ${error.message}`);
     }
@@ -28,50 +25,49 @@ class ProductsController {
 
   async create(req, res) {
     try {
-      const { data } = req.body;
+      const { title, description, price, categoryId } = req.body;
 
-      if (!data) {
-        return res.status(401).json('Data incorrected formatted.');
+      if (!title || !description || !price || !categoryId) {
+        return res.status(401).json('Incorrectly reported data.');
       }
 
-      await Products.bulkCreate(data);
+      const product = await Products.create(req.body);
 
-      return res.status(200).json(data);
+      return res.status(200).json(product);
     } catch (error) {
-      console.log('### Error when create ###', error.response.data);
       return res.status(500).json(`Error: ${error.message}`);
     }
   }
 
   async update(req, res) {
     try {
-      const smslog = await Products.findByPk(req.params.id);
+      const { id } = req.params;
+      const product = await Products.findByPk(id);
 
-      if (!smslog) {
-        return res.status(400).json({ error: 'This sms log does not exists' });
+      if (!product) {
+        return res.status(400).json({ error: 'This product does not exists' });
       }
 
-      const data = req.body;
-      await smslog.update(data);
+      await product.update(req.body);
 
-      return res.json(smslog);
+      return res.json(product);
     } catch (error) {
-      console.log('### Error when update ###', error.response.data);
       return res.status(500).json(`Error: ${error.message}`);
     }
   }
 
   async delete(req, res) {
     try {
-      const smsLog = await Products.findByPk(req.params.id);
+      const { id } = req.params;
+      const product = await Products.findByPk(id);
 
-      if (!smsLog) {
-        return res.status(400).json({ error: 'This sms log does not exists.' });
+      if (!product) {
+        return res.status(400).json({ error: 'This product does not exists.' });
       }
 
-      await smsLog.destroy();
+      await product.destroy();
 
-      return res.json({ success: 'SMS log successfully deleted.' });
+      return res.json({ success: 'Product successfully deleted.' });
     } catch (error) {
       return res.status(500).json(`Error: ${error.message}`);
     }
