@@ -21,6 +21,7 @@ class Products extends Model {
     this.belongsTo(models.Categories, {
       foreignKey: 'categoryId',
       as: 'Category',
+      onDelete: 'SET NULL',
     });
   }
 }

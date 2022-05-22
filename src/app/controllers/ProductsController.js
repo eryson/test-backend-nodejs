@@ -1,12 +1,18 @@
 import 'dotenv/config';
 import Products from '../models/Products';
+import Categories from '../models/Categories';
+import convertMoneyToCents from '../utils/convertMoneyToCents';
+import convertCentsToMoney from '../utils/convertCentsToMoney';
 
 class ProductsController {
   async getAll(req, res) {
     try {
       const products = await Products.findAll();
+      if (!products) return res.json(products);
 
-      return res.json(products);
+      const newProducts = await convertCentsToMoney(products);
+
+      return res.json(newProducts);
     } catch (error) {
       return res.status(500).json(`Error: ${error.message}`);
     }
@@ -15,9 +21,13 @@ class ProductsController {
   async getByFilter(req, res) {
     try {
       const { body } = req;
-      const product = await Products.findAll({ where: body });
 
-      return res.json(product);
+      const products = await Products.findAll({ where: body });
+      if (!products) return res.json(products);
+
+      const newProducts = await convertCentsToMoney(products);
+
+      return res.json(newProducts);
     } catch (error) {
       return res.status(500).json(`Error: ${error.message}`);
     }
@@ -31,7 +41,20 @@ class ProductsController {
         return res.status(401).json('Incorrectly reported data.');
       }
 
-      const product = await Products.create(req.body);
+      const category = await Categories.findOne({ where: { id: categoryId } });
+
+      if (!category) {
+        return res.status(400).json({ error: 'This category does not exists' });
+      }
+
+      const newPrice = await convertMoneyToCents(price);
+
+      const product = await Products.create({
+        title,
+        description,
+        price: newPrice,
+        categoryId,
+      });
 
       return res.status(200).json(product);
     } catch (error) {
@@ -42,15 +65,21 @@ class ProductsController {
   async update(req, res) {
     try {
       const { id } = req.params;
+      const { price } = req.body;
       const product = await Products.findByPk(id);
 
       if (!product) {
         return res.status(400).json({ error: 'This product does not exists' });
       }
 
-      await product.update(req.body);
+      if (price) req.body.price = await convertMoneyToCents(price);
 
-      return res.json(product);
+      await product.update(req.body);
+      const newProduct = await convertCentsToMoney(product, true);
+
+      console.log(newProduct);
+
+      return res.json(newProduct);
     } catch (error) {
       return res.status(500).json(`Error: ${error.message}`);
     }
