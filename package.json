@@ -1,0 +1,8 @@
+{
+  "name": "test-backend-nodejs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/eryson/test-backend-nodejs.git",
+  "author": "Eryson Miranda <eryson.ktm@gmail.com>",
+  "license": "MIT"
+}
