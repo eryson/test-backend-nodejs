@@ -1,8 +1,35 @@
 {
   "name": "test-backend-nodejs",
   "version": "1.0.0",
-  "main": "index.js",
   "repository": "https://github.com/eryson/test-backend-nodejs.git",
   "author": "Eryson Miranda <eryson.ktm@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "nodemon src/server.js --ignore test",
+    "start": "node src/server.js",
+    "build": "babel src --extensions \".js\" --out-dir dist --copy-files"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "express-async-errors": "^3.1.1",
+    "mysql": "^2.18.1",
+    "sequelize": "^6.19.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.17.10",
+    "@babel/core": "^7.18.0",
+    "@babel/eslint-parser": "^7.17.0",
+    "@babel/node": "^7.17.10",
+    "@babel/preset-env": "^7.18.0",
+    "eslint": "^8.16.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "nodemon": "^2.0.16",
+    "prettier": "^2.6.2",
+    "sucrase": "^3.21.0"
+  }
 }
