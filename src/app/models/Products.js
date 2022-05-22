@@ -4,9 +4,10 @@ class Products extends Model {
   static init(sequelize) {
     super.init(
       {
-        title: Sequelize.STRING,
-        description: Sequelize.STRING,
-        price: Sequelize.DECIMAL(5, 2),
+        id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
+        title: { type: Sequelize.STRING, allowNull: false },
+        description: { type: Sequelize.STRING, allowNull: true },
+        price: { type: Sequelize.INTEGER, allowNull: false },
       },
       {
         sequelize,
@@ -16,12 +17,12 @@ class Products extends Model {
     return this;
   }
 
-  // static associate(models) {
-  //   this.belongsTo(models.Categories, {
-  //     foreignKey: 'categoryId',
-  //     as: 'Category',
-  //   });
-  // }
+  static associate(models) {
+    this.belongsTo(models.Categories, {
+      foreignKey: 'categoryId',
+      as: 'Category',
+    });
+  }
 }
 
 export default Products;

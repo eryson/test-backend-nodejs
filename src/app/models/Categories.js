@@ -5,7 +5,7 @@ class Categories extends Model {
     super.init(
       {
         id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
-        name: Sequelize.STRING,
+        name: { type: Sequelize.STRING, allowNull: false },
       },
       {
         sequelize,
