@@ -1,6 +1,6 @@
 const convertMoneyToCents = async (value) => {
   try {
-    const money = value * 60;
+    const money = value * 100;
 
     return money;
   } catch (error) {
