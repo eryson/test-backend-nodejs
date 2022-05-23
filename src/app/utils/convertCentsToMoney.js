@@ -1,13 +1,13 @@
 const convertCentsToMoney = async (products, isUpdate = false) => {
   try {
     if (isUpdate) {
-      products.price = products.price / 60;
+      products.price = products.price / 100;
 
       return products;
     }
 
     for await (const product of products) {
-      product.price = product.price / 60;
+      product.price = product.price / 100;
     }
 
     return products;
